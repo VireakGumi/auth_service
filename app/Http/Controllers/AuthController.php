@@ -86,6 +86,9 @@ class AuthController extends Controller
             $file->storeAs('avatars', $filename, 'public');
             $user->avatar = $filename;
         }
+        else {
+            $user->avatar = User::NO_IMAGE; // default avatar
+        }
 
         $user->save();
 

@@ -58,7 +58,7 @@ class ProfileController extends Controller
 
         // Handle avatar
         if ($req->hasFile('avatar')) {
-            if ($user->avatar) {
+            if ($user->avatar && $user->avatar !== User::NO_IMAGE) {
                 Storage::disk('public')->delete('avatars/' . $user->avatar);
             }
 

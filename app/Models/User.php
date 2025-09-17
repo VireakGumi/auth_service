@@ -17,6 +17,8 @@ class User extends Authenticatable
         'ACTIVE' => 1,
         'INACTIVE' => 0,
     ];
+
+    const NO_IMAGE = 'image.png';
     /**
      * The attributes that are mass assignable.
      *

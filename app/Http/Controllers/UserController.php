@@ -190,6 +190,9 @@ class UserController extends Controller
             $file->storeAs('avatars', $filename, 'public');
             $user->avatar = $filename;
         }
+        else {
+            $user->avatar = User::NO_IMAGE; // default avatar
+        }
 
         $user->save();
         $role_ids = $request->input('role_ids');
@@ -274,7 +277,7 @@ class UserController extends Controller
 
         // Handle avatar
         if ($request->hasFile('avatar')) {
-            if ($user->avatar) {
+            if ($user->avatar && $user->avatar !== User::NO_IMAGE) {
                 Storage::disk('public')->delete('avatars/' . $user->avatar);
             }
             $file = $request->file('avatar');
@@ -327,7 +330,7 @@ class UserController extends Controller
         if (!$user) return res_fail('User not found');
         $user->roles()->detach(); // remove role associations
         // delete avatar file if exists
-        if ($user->avatar) {
+        if ($user->avatar && $user->avatar !== User::NO_IMAGE) {
             $avatarPath = storage_path('app/public/avatars/' . $user->avatar);
             if (file_exists($avatarPath)) {
                 unlink($avatarPath);
